@@ -22,9 +22,16 @@ if (!appId) {
 
 var privateKey = core.getInput("private-key") || core.getInput("private_key");
 
-const base64 = core.getInput("base64");
-if (base64 === "true") {
-  privateKey = Buffer.from(core.getInput("private-key"), 'base64').toString('utf-8') || Buffer.from(core.getInput("private_key"), 'base64').toString('utf-8');
+const checkBase64 = core.getInput("check-base64");
+
+if (checkBase64 == 'true') {
+  const base64Regex = new RegExp('^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$');
+  if (base64Regex.test(privateKey)) {
+    core.info(
+      `Base64 Detected, decoding private key`
+    );
+    privateKey = Buffer.from(privateKey, 'base64').toString('utf-8')
+  }
 }
 
 if (!privateKey) {

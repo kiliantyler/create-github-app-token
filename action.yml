@@ -37,9 +37,10 @@ inputs:
   github-api-url:
     description: The URL of the GitHub REST API.
     default: ${{ github.api_url }}
-  base64:
-    description: "If truthy, the private key is base64 encoded"
+  check-base64:
+    description: "Enables the check of base64 encoding on private key, default is true. Disable this if you are experiencing issues with false detections."
     required: false
+    default: "true"
 outputs:
   token:
     description: "GitHub installation access token"
