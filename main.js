@@ -19,11 +19,21 @@ if (!appId) {
   // The 'app_id' input was previously required, but it and 'app-id' are both optional now, until the former is removed. Still, we want to ensure that at least one of them is set.
   throw new Error("Input required and not supplied: app-id");
 }
-const privateKey = core.getInput("private-key") || core.getInput("private_key");
+
+var privateKey = core.getInput("private-key") || core.getInput("private_key");
+
+const base64 = core.getInput("base64");
+if (base64 === "true") {
+  privateKey = Buffer.from(core.getInput("private-key"), 'base64').toString('utf-8') || Buffer.from(core.getInput("private_key"), 'base64').toString('utf-8');
+}
+
 if (!privateKey) {
   // The 'private_key' input was previously required, but it and 'private-key' are both optional now, until the former is removed. Still, we want to ensure that at least one of them is set.
   throw new Error("Input required and not supplied: private-key");
 }
+
+
+
 const owner = core.getInput("owner");
 const repositories = core.getInput("repositories");
 
